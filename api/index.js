@@ -13,6 +13,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => res.send("Express on Vercel 123"));
 
+app.post("/test", (req, res) => {
+  res.send("Post request received");
+});
+
 // Route to handle form submissions
 app.post("/send-email", async (req, res) => {
   const { name, email, message } = req.body;
