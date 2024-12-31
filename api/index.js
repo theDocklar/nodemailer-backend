@@ -2,6 +2,8 @@ const express = require("express");
 const nodemailer = require("nodemailer");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const dotenv = require("dotenv");
+dotenv.config();
 
 const app = express();
 const PORT = 3000;
@@ -12,10 +14,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => res.send("Express on Vercel 123"));
-
-app.post("/test", (req, res) => {
-  res.send("Post request received");
-});
 
 // Route to handle form submissions
 app.post("/send-email", async (req, res) => {
@@ -28,7 +26,7 @@ app.post("/send-email", async (req, res) => {
     port: process.env.EMAIL_PORT,
     host: process.env.SMTP_HOST,
     auth: {
-      user: process.env.RECEIVER_EMAIL, // Your email address
+      user: process.env.SENDER_EMAIL, // Your email address
       pass: process.env.SENDER_PW, // Your email password or app password
     },
     tls: {
@@ -39,7 +37,7 @@ app.post("/send-email", async (req, res) => {
   // Set up email data
   let mailOptions = {
     from: email, // Sender's email
-    to: process.env.SENDER_EMAIL, // Replace with the recipient's email
+    to: process.env.RECEIVER_EMAIL, // Replace with the recipient's email
     subject: `New message from ${name}`,
     text: `You have received a new message:\n\nName: ${name}\nEmail: ${email}\nMessage: ${message}`,
   };
