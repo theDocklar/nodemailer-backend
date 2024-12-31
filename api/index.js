@@ -45,10 +45,15 @@ app.post("/send-email", async (req, res) => {
   // Send email
   try {
     let info = await transporter.sendMail(mailOptions);
-    console.log("Email sent: " + info.response);
+    console.log("success");
+    console.log("Email sent: " + info.response + "test");
+
     res
       .status(200)
-      .send({ success: true, message: "Email sent successfully!" });
+      .send({
+        success: true,
+        message: `You have received a new message:\n\nName: ${name}\nEmail: ${email}\nMessage: ${message}`,
+      });
   } catch (error) {
     console.error("Error sending email: ", error);
     res.status(500).send({ success: false, message: "Error sending email." });
