@@ -11,7 +11,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/", (req, res) => res.send("Express on Vercel"));
+app.get("/", (req, res) => res.send("Express on Vercel 123"));
 
 // Route to handle form submissions
 app.post("/send-email", async (req, res) => {
@@ -21,11 +21,11 @@ app.post("/send-email", async (req, res) => {
   let transporter = nodemailer.createTransport({
     secure: true,
     service: "gmail", // Replace with your email provider
-    port: 465,
-    host: "smtp.gmail.com",
+    port: process.env.EMAIL_PORT,
+    host: process.env.SMTP_HOST,
     auth: {
-      user: "buildarealgreatsite@gmail.com", // Your email address
-      pass: "nqgiaznihsfcdili", // Your email password or app password
+      user: process.env.RECEIVER_EMAIL, // Your email address
+      pass: process.env.SENDER_PW, // Your email password or app password
     },
     tls: {
       rejectUnauthorized: false, // Ignore self-signed certificate errors
@@ -35,7 +35,7 @@ app.post("/send-email", async (req, res) => {
   // Set up email data
   let mailOptions = {
     from: email, // Sender's email
-    to: "shaveenfernando1@gmail.com", // Replace with the recipient's email
+    to: process.env.SENDER_EMAIL, // Replace with the recipient's email
     subject: `New message from ${name}`,
     text: `You have received a new message:\n\nName: ${name}\nEmail: ${email}\nMessage: ${message}`,
   };
